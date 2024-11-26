@@ -4,7 +4,7 @@ metadata:
   name: ecsdemo-nodejs
   labels:
     app: ecsdemo-nodejs
-  namespace: default
+  namespace: test
 spec:
   replicas: 1
   selector:
@@ -27,3 +27,5 @@ spec:
         ports:
         - containerPort: 3000
           protocol: TCP
+      nodeSelector:
+          karpenter.sh/capacity-type: spot          
