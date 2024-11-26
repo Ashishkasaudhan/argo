@@ -1,31 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ecsdemo-nodejs
-  labels:
-    app: ecsdemo-nodejs
-  namespace: test
+  name: inflate
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
-      app: ecsdemo-nodejs
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: inflate
   template:
     metadata:
       labels:
-        app: ecsdemo-nodejs
+        app: inflate
     spec:
+      terminationGracePeriodSeconds: 0
       containers:
-      - image: brentley/ecsdemo-nodejs:latest
-        imagePullPolicy: Always
-        name: ecsdemo-nodejs
-        ports:
-        - containerPort: 3000
-          protocol: TCP
+        - name: inflate
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          resources:
+            requests:
+              cpu: "1"
       nodeSelector:
-          karpenter.sh/capacity-type: spot          
+        karpenter.sh/capacity-type: "on-demand"
